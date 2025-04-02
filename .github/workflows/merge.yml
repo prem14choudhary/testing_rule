@@ -1,0 +1,15 @@
+name: Check Merge Path
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate-merge-path:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if merging staging directly to main
+        if: github.base_ref == 'main' && github.head_ref == 'staging'
+        run: |
+          echo "Error: Cannot merge staging directly to main. Merge to development first."
+          exit 1
